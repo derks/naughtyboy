@@ -12,7 +12,7 @@ nB takes a YAML configuration file that looks like:
 # seconds to sleep in-between iterations (to check on threads/processes)
 sleep: 1
 
-# commands to run before naughtyboy is started
+# commands to run before naughtyboy is started (i.e. for docker)
 prep:
     - 'apt-get install curl'
 
