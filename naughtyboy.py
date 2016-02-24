@@ -95,7 +95,19 @@ class BaseController(ArgparseController):
         ],
     )
     def run(self):
+        assert os.path.exists(self.app.pargs.run_config), \
+            "Run configuration file %s does not exist" % \
+            self.app.pargs.run_config
         config = yaml.load(open(self.app.pargs.run_config, 'r').read())
+
+        assert config, "Run configuration is un-readable (Invalid Yaml?)"
+        assert 'commands' in config.keys(), \
+            "Run configuration has no commands defined"
+            
+        if 'sleep' not in config.keys():
+            config['sleep'] = 1
+        if 'prep' not in config.keys():
+            config['prep'] = []
 
         if self.app.pargs.with_prep and 'prep' in config.keys():
             for prep in config['prep']:
@@ -143,7 +155,11 @@ class NaughtyBoy(CementApp):
 
 def main():
     with NaughtyBoy() as app:
-        app.run()
+        try:
+            app.run()
+        except AssertionError as e:
+            print("Caught AssertionError: %s" % e.args[0])
+            app.exit_code = 1
 
 if __name__ == '__main__':
     main()
