@@ -59,7 +59,13 @@ Process #1: curl -s http://vhost2.example.com/ ; sleep 5
 ## Run With Docker
 
 ```
+$ docker run -it -v /path/to/commands.yml:/app/commands.yml derks/naughtyboy
+```
+
+Or build it:
+
+```
 $ docker build -t naughtyboy:dev .
 
-$ docker run -it -v /path/to/commands.yml:/app/commands.yml
+$ docker run -it -v /path/to/commands.yml:/app/commands.yml naughtyboy:dev
 ```
