@@ -13,21 +13,34 @@ from cement.utils import shell
 # term = Terminal()
 from colorama import init, Fore, Back
 init(autoreset=True)
-COLORS = [ 
-    Fore.RED, 
-    Fore.GREEN, 
-    Fore.YELLOW, 
-    Fore.BLUE, 
-    Fore.MAGENTA, 
-    Fore.CYAN, 
+FORES = [ 
     Fore.WHITE,
+    Fore.CYAN, 
+    Fore.MAGENTA, 
+    Fore.BLUE, 
+    Fore.YELLOW, 
+    Fore.GREEN, 
+    Fore.RED, 
+]
+BACKS = [
     Back.RED,
     Back.GREEN,
     Back.YELLOW, 
     Back.BLUE, 
     Back.MAGENTA, 
-    Back.CYAN, 
+    Back.CYAN,    
 ]
+COLORS = []
+for color in FORES:
+    COLORS.append(color)
+    for back_color in BACKS:
+        COLORS.append(color + back_color)
+for color in BACKS:
+    COLORS.append(color)
+
+# need more options when doing crazy shit loads of threads...
+COLORS = COLORS + COLORS + COLORS + COLORS + COLORS + COLORS + COLORS + COLORS
+
 
 def runner(command, verbose=False):
     if verbose:
@@ -52,6 +65,14 @@ class BaseController(ArgparseController):
                 dict(
                     help='verbose level output',
                     dest='verbose',
+                    action='store_true',
+                    ),
+            ),
+            (
+                ['--no-color'],
+                dict(
+                    help='do not use terminal colors',
+                    dest='no_color',
                     action='store_true',
                     ),
             ),
@@ -133,12 +154,19 @@ class BaseController(ArgparseController):
                 verbose = self.app.pargs.verbose
 
                 if i[mode] is None or not i[mode].is_alive():
-                    msg = '{color}{mode} #{tid}: {command}'.format(
+                    if self.app.pargs.no_color:
+                        msg = '{mode} #{id}: {command}'.format(
                             mode=mode.capitalize(),
-                            color=i['color'],
-                            tid=i['id'],
+                            id=i['id'],
                             command=i['command'],
                             )
+                    else:
+                        msg = '{color}{mode} #{id}: {command}'.format(
+                                mode=mode.capitalize(),
+                                color=i['color'],
+                                id=i['id'],
+                                command=i['command'],
+                                )
                     print(msg)
                     i[mode] = spawn(runner, args=(i['command'], verbose))
                 else:
