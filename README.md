@@ -3,6 +3,8 @@
 NaughtyBoy (nB) was created to make it easy to generate system or network
 traffic for testing purposes.  This is super alpha... probably don't use it.
 
+[<img src="http://i.imgur.com/ztmjt9o.gif">](https://www.youtube.com/watch?v=qCUUw2PRxh0#t=12)
+
 ## Configuration
 
 nB takes a YAML configuration file that looks like:
