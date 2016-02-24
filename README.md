@@ -9,9 +9,14 @@ nB takes a YAML configuration file that looks like:
 
 ```yaml
 ---
+# seconds to sleep in-between iterations (to check on threads/processes)
 sleep: 1
+
+# commands to run before naughtyboy is started
 prep:
     - 'apt-get install curl'
+
+# commands to run (forever)
 commands:
     - 'curl http://vhost1.example.com'
     - 'curl http://vhost2.example.com ; sleep 5'
@@ -20,7 +25,7 @@ commands:
 ## Run With Python
 
 ```
-$ pip instal -r requirements.txt
+$ pip install -r requirements.txt
 
 $ python setup.py develop
 
