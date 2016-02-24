@@ -1,0 +1,8 @@
+---
+sleep: 1
+prep:
+    - 'apt-get install -y curl'
+commands:
+    - 'echo Hello!'
+    - 'curl -s http://172.100.1.11/'
+

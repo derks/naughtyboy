@@ -1,0 +1,4 @@
+-e git+https://github.com/datafolklabs/cement.git#egg=cement
+colorlog
+pyYaml
+colorama
